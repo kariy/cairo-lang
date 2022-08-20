@@ -2,3 +2,4 @@
 /out
 /package-lock.json
 /*.vsix
+./script.sh

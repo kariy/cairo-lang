@@ -1,19 +1,27 @@
 {
     "comments": {
-        // Symbol used for single line comment.
         "lineComment": "#",
     },
-    // Symbols used as brackets.
+    // symbols used as brackets
     "brackets": [
-        ["[", "]"]
-    ],
-    // Symbols that are auto closed when typing.
-    "autoClosingPairs": [
+        ["{", "}"],
         ["[", "]"],
-        ["%{", "%}"]
+        ["(", ")"]
     ],
-    // Symbols that that can be used to surround a selection.
+    // symbols that are auto closed when typing
+   "autoClosingPairs": [
+    { "open": "{", "close": "}" },
+    { "open": "[", "close": "]" },
+    { "open": "(", "close": ")" },
+    { "open": "'", "close": "'", "notIn": ["string", "comment"] },
+    { "open": "\"", "close": "\"", "notIn": ["string"] },
+  ],
+    // symbols that can be used to surround a selection
     "surroundingPairs": [
-        ["%{", "%}"]
+        ["{", "}"],
+        ["[", "]"],
+        ["(", ")"],
+        ["\"", "\""],
+        ["'", "'"]
     ]
 }

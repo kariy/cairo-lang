@@ -1,0 +1,30 @@
+># SYNTAX TEST "source.cairo" "sample testcase"
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.cairo comment.line.number-sign.cairo
+>
+>func foo{output_ptr: felt*}(a: felt*):
+#^^^^ source.cairo meta.function.cairo storage.type.function.cairo
+#    ^ source.cairo meta.function.cairo
+#     ^^^ source.cairo meta.function.cairo meta.function.definition.cairo entity.name.function.cairo
+#        ^ source.cairo meta.function.cairo meta.function.definition.cairo meta.parameter.implicit.cairo
+#         ^^^^^^^^^^ source.cairo meta.function.cairo meta.function.definition.cairo meta.parameter.implicit.cairo variable.parameter.implicit.cairo
+#                   ^^ source.cairo meta.function.cairo meta.function.definition.cairo meta.parameter.implicit.cairo
+#                     ^^^^ source.cairo meta.function.cairo meta.function.definition.cairo meta.parameter.implicit.cairo support.type.primitive.cairo
+#                         ^ source.cairo meta.function.cairo meta.function.definition.cairo meta.parameter.implicit.cairo
+#                          ^ source.cairo meta.function.cairo meta.function.definition.cairo meta.parameter.implicit.cairo
+#                           ^ source.cairo meta.function.cairo meta.function.definition.cairo meta.parameter.cairo
+#                            ^ source.cairo meta.function.cairo meta.function.definition.cairo meta.parameter.cairo variable.parameter.cairo
+#                             ^^ source.cairo meta.function.cairo meta.function.definition.cairo meta.parameter.cairo
+#                               ^^^^ source.cairo meta.function.cairo meta.function.definition.cairo meta.parameter.cairo support.type.primitive.cairo
+#                                   ^ source.cairo meta.function.cairo meta.function.definition.cairo meta.parameter.cairo
+#                                    ^ source.cairo meta.function.cairo meta.function.definition.cairo meta.parameter.cairo
+#                                     ^ source.cairo meta.function.cairo meta.function.definition.cairo meta.function.definition.end.cairo
+>
+>    tempvar x = 10
+#^^^^ source.cairo meta.function.cairo
+#    ^^^^^^^ source.cairo meta.function.cairo meta.function.definition.cairo entity.name.function.cairo
+#           ^^^^^^^^ source.cairo meta.function.cairo meta.function.definition.cairo
+>
+>end
+#^^^^ source.cairo meta.function.cairo meta.function.definition.cairo
+>
+>
