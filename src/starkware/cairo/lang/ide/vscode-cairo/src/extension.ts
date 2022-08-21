@@ -4,11 +4,9 @@ import cp = require('child_process');
 function getFormatterExecutablePath(config: vscode.WorkspaceConfiguration): string | undefined {
     var execPath = config.get<string>('cairo.cairoFormatPath');
 
-
     if (!execPath) {
         return undefined;
     }
-
 
     // Replace placeholders, if present.
     if (vscode.workspace.rootPath) {
@@ -44,8 +42,6 @@ export function activate(context: vscode.ExtensionContext) {
                 vscode.window.showInformationMessage('Formatting failed: ' + e.stderr.toString());
                 return [];
             }
-
-
 
             var firstLine = document.lineAt(0);
             var lastLine = document.lineAt(document.lineCount - 1);

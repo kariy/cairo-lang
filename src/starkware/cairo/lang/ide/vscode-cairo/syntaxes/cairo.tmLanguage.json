@@ -3,116 +3,6 @@
 	"name": "Cairo",
 	"patterns": [
 		{
-			"include": "#directives"
-		},
-		{
-			"include": "#import"
-		},
-		{
-			"include": "#statements"
-		},
-		{
-			"include": "#type-annotation"
-		},
-		{
-			"include": "#operators"
-		}
-	],
-	"repository": {
-		"statements": {
-			"patterns": [
-				{
-					"include": "#embedded-python"
-				},
-				{
-					"include": "#declaration"
-				},
-				{
-					"include": "#control-statement"
-				},
-				{
-					"include": "#comment"
-				},
-				{
-					"include": "#operators"
-				},
-				{
-					"include": "#literal"
-				},
-				{
-					"include": "#types"
-				},
-				{
-					"match": "\\b(assert)\\b",
-					"name": "keyword.other.cairo"
-				},
-				{
-					"match": "\\b(return|ret)\\b",
-					"name": "keyword.control.flow.cairo"
-				},
-				{
-					"include": "#generic-var"
-				}
-			]
-		},
-		"parameter": {
-			"match": "\\b([a-zA-Z_][a-zA-Z0-9_]*)\\s*(?:(:)\\s*([a-zA-Z_][a-zA-Z0-9_*]*))?\\s*(,)?",
-			"captures": {
-				"1": {
-					"name": "variable.parameter.cairo"
-				},
-				"2": {
-					"name": "keyword.operator.type.annotation.cairo"
-				},
-				"3": {
-					"patterns": [
-						{
-							"include": "#types"
-						},
-						{
-							"name": "support.type.cairo",
-							"match": "(?:\\b)([\\w_][\\w\\d_]*)(?:\\b)"
-						}
-					]
-				},
-				"4": {
-					"name": "punctuation.separator.comma.cairo"
-				}
-			}
-		},
-		"operators": {
-			"patterns": [
-				{
-					"name": "keyword.operator.arithmetic.cairo",
-					"match": "%|\\*|/|-|\\+"
-				},
-				{
-					"name": "keyword.operator.comparison.cairo",
-					"match": "=="
-				},
-				{
-					"name": "keyword.operator.assignment.cairo",
-					"match": "="
-				}
-			]
-		},
-		"function-call": {
-			"name": "meta.function-call.cairo",
-			"begin": "(?<!func)\\s+([\\w_][\\w\\d_]*)\\(\\s*",
-			"patterns": [
-				{
-					"include": "#literal"
-				},
-				{
-					"include": "#operators"
-				},
-				{
-					"include": "#generic-var"
-				}
-			],
-			"end": "\\)"
-		},
-		"function-declaration": {
 			"name": "meta.function.cairo",
 			"begin": "\\b(func)\\s+",
 			"beginCaptures": {
@@ -122,7 +12,79 @@
 			},
 			"patterns": [
 				{
-					"name": "meta.function.signature.cairo",
+					"include": "#function-scope"
+				},
+				{
+					"include": "source.cairo"
+				}
+			],
+			"end": "\\b(end)\\b",
+			"endCaptures": {
+				"1": {
+					"name": "storage.type.function.end.cairo"
+				}
+			}
+		},
+		{
+			"name": "comment.line.number-sign.cairo",
+			"match": "#[^\n]*\n"
+		},
+		{
+			"name": "constant.numeric.decimal.cairo",
+			"match": "\\b([0-9]+)\\b"
+		},
+		{
+			"name": "constant.numeric.hexadecimal.cairo",
+			"match": "\\b(0x[a-fA-F0-9]+)\\b"
+		},
+		{
+			"name": "string.quoted.double",
+			"match": "\\B(\"\\w*\")\\B"
+		}
+	],
+	"repository": {
+		"parameter": {
+			"match": "\\b([a-zA-Z_][a-zA-Z0-9_]*)\\s*(?::\\s*([a-zA-Z_][a-zA-Z0-9_*]*))\\b",
+			"captures": {
+				"1": {
+					"name": "variable.parameter.cairo"
+				},
+				"2": {
+					"patterns": [
+						{
+							"include": "#types"
+						}
+					]
+				}
+			}
+		},
+		"implicit-parameter": {
+			"match": "\\b([a-zA-Z_][a-zA-Z0-9_]*)\\s*(?::\\s*([a-zA-Z_][a-zA-Z0-9_*]*))\\b",
+			"captures": {
+				"1": {
+					"name": "variable.parameter.implicit.cairo"
+				},
+				"2": {
+					"patterns": [
+						{
+							"include": "#types"
+						}
+					]
+				}
+			}
+		},
+		"types": {
+			"patterns": [
+				{
+					"name": "support.type.primitive.cairo",
+					"match": "(felt\\*?)"
+				}
+			]
+		},
+		"function-scope": {
+			"patterns": [
+				{
+					"name": "meta.function.signature",
 					"begin": "\\b([a-zA-Z_][a-zA-Z0-9_]*)\\b(?=[{(])",
 					"beginCaptures": {
 						"1": {
@@ -135,7 +97,7 @@
 							"begin": "{",
 							"patterns": [
 								{
-									"include": "#parameter"
+									"include": "#implicit-parameter"
 								}
 							],
 							"end": "}"
@@ -151,213 +113,38 @@
 							"end": "\\)"
 						}
 					],
-					"end": "(?<=:)",
-					"endCaptures": {}
-				},
-				{
-					"include": "#statements"
-				}
-			],
-			"end": "\\b(end)\\b",
-			"endCaptures": {
-				"1": {
-					"name": "storage.type.function.end.cairo"
-				}
-			}
-		},
-		"directives": {
-			"name": "meta.directive.cairo",
-			"begin": "\\B(%)(builtins|lang)\\b",
-			"beginCaptures": {
-				"2": {
-					"name": "entity.name.directive.cairo"
-				}
-			},
-			"patterns": [
-				{
-					"begin": "(?<=builtins)\\b",
-					"patterns": [
-						{
-							"match": "\\b([\\w_][\\w\\d_]*)\\b",
-							"name": "entity.name.builtins.cairo"
+					"end": "\\B(:)",
+					"endCaptures": {
+						"1": {
+							"name": "meta.function.definition.end.cairo"
 						}
-					],
-					"end": "(?=\\n|\\r)"
+					}
 				},
 				{
-					"begin": "(?<=lang)\\b",
-					"patterns": [
-						{
-							"match": "\\b([\\w_][\\w\\d_]*)\\b",
-							"name": "entity.name.lang.cairo"
-						}
-					],
-					"end": "(?=\\n|\\r)"
-				}
-			],
-			"end": "(?:\\n|\\r)"
-		},
-		"declaration": {
-			"patterns": [
-				{
-					"include": "#function-call"
+					"name": "storage.type.cairo",
+					"match": "\\b(let|tempvar|local)\\b"
 				},
 				{
-					"include": "#function-declaration"
-				},
-				{
-					"name": "meta.var.expr.cairo",
-					"begin": "\\b(?=let|const|tempvar|local)\\b",
-					"patterns": [
-						{
-							"name": "storage.type.cairo",
-							"match": "\\b(let|const|tempvar|local)\\b"
-						},
-						{
-							"include": "#type-annotation"
-						},
-						{
-							"include": "#statements"
-						}
-					],
-					"end": "[\\n\\r]"
-				}
-			]
-		},
-		"control-statement": {
-			"patterns": [
-				{
-					"include": "#if-statement"
+					"name": "keyword.control.other.cairo",
+					"match": "\\b(end)\\b"
 				},
 				{
 					"name": "keyword.control.conditional.cairo",
 					"match": "\\b(if|else)\\b"
-				}
-			]
-		},
-		"for-loop": {
-			"begin": "\\b(for)\\b"
-		},
-		"if-statement": {
-			"name": "meta.control.if.cairo",
-			"begin": "\\b(if)\\b",
-			"beginCaptures": {
-				"1": {
-					"name": "keyword.control.conditional.cairo"
-				},
-				"2": {
-					"name": "entity.name.condition.cairo"
-				}
-			},
-			"patterns": [
-				{
-					"include": "#statements"
-				}
-			],
-			"contentName": "source.cairo",
-			"end": "\\b(end)\\b",
-			"endCaptures": {
-				"0": {
-					"name": "keyword.control.end.cairo"
-				}
-			}
-		},
-		"comment": {
-			"patterns": [
-				{
-					"name": "comment.line.number-sign.cairo",
-					"match": "#[^\n]*\n"
-				}
-			]
-		},
-		"literal": {
-			"patterns": [
-				{
-					"include": "#string"
 				},
 				{
-					"include": "#number"
-				}
-			]
-		},
-		"string": {
-			"patterns": [
-				{
-					"name": "string.quoted.double",
-					"match": "\\B(\"\\w*\")\\B"
-				}
-			]
-		},
-		"number": {
-			"patterns": [
-				{
-					"name": "constant.numeric.decimal.cairo",
-					"match": "\\b([0-9]+)\\b"
+					"name": "keyword.control.flow.cairo",
+					"match": "\\b(return|ret)\\b"
 				},
 				{
-					"name": "constant.numeric.hexadecimal.cairo",
-					"match": "\\b(0x[a-fA-F0-9]+)\\b"
-				}
-			]
-		},
-		"import": {
-			"name": "meta.import.cairo",
-			"begin": "\\b(from)\\b",
-			"beginCaptures": {
-				"1": {
-					"name": "keyword.control.from.cairo"
-				}
-			},
-			"end": "\\b(import)\\b",
-			"endCaptures": {
-				"1": {
-					"name": "keyword.control.import.cairo"
-				}
-			}
-		},
-		"type-annotation": {
-			"name": "meta.type.annotation.cairo",
-			"match": "\\b([\\w_][\\w\\d_]*)\\s*(:)\\s*([\\w_][\\w\\d_]*)\\b",
-			"captures": {
-				"1": {
-					"patterns": [
-						{
-							"include": "#generic-var"
-						}
-					]
+					"name": "support.constant.cairo",
+					"match": "\\b(SIZEOF_LOCALS|SIZE)\\b"
 				},
-				"2": {
-					"name": "keyword.operator.type.annotation.cairo"
+				{
+					"name": "support.variable.cairo",
+					"match": "\\b(ap|fp)\\b"
 				},
-				"3": {
-					"patterns": [
-						{
-							"include": "#types"
-						},
-						{
-							"name": "support.type.cairo",
-							"match": "(?:\\b)([\\w_][\\w\\d_]*)(?:\\b)"
-						}
-					]
-				}
-			}
-		},
-		"types": {
-			"patterns": [
 				{
-					"name": "support.type.primitive.cairo",
-					"match": "\\b(felt)\\b"
-				}
-			]
-		},
-		"generic-var": {
-			"name": "variable.other.cairo",
-			"match": "\\b([\\w_][\\w\\d_]*)\\b"
-		},
-		"embedded-python": {
-			"patterns": [
-				{
-					"name": "meta.embedded.block.python",
 					"begin": "%{",
 					"beginCaptures": {
 						"0": {
@@ -373,29 +160,6 @@
 							"name": "source.python"
 						}
 					},
-					"contentName": "source.python",
-					"patterns": [
-						{
-							"include": "source.python"
-						}
-					]
-				},
-				{
-					"begin": "%\\[",
-					"beginCaptures": {
-						"0": {
-							"name": "punctuation.section.embedded.begin.python"
-						}
-					},
-					"end": "%\\]",
-					"endCaptures": {
-						"0": {
-							"name": "punctuation.section.embedded.end.python"
-						},
-						"1": {
-							"name": "source.python"
-						}
-					},
 					"name": "meta.embedded.block.python",
 					"contentName": "source.python",
 					"patterns": [
@@ -405,10 +169,6 @@
 					]
 				}
 			]
-		},
-		"unnamed": {
-			"match": "\\b(SIZEOF_LOCALS|SIZE)\\b",
-			"name": "support.constant.cairo"
 		}
 	},
 	"scopeName": "source.cairo"
