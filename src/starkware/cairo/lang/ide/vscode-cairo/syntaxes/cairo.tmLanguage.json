@@ -101,13 +101,12 @@
         },
         "function-call": {
             "name": "meta.function-call.cairo",
-            "begin": "(?<!func)\\s+([\\w_][\\w\\d_]*)\\(\\s*",
-            "beginCaptures": {
-                "1": {
-                    "name": "entity.name.function.cairo"
-                }
-            },
+            "begin": "(?<!func\\s*)\\b(?=(?:[\\w][\\w]*)\\(\\s*)",
             "patterns": [
+                {
+                    "match": "\\b([\\w][\\w]*)\\(",
+                    "name": "entity.name.function.cairo"
+                },
                 {
                     "include": "#literal"
                 },
@@ -122,16 +121,15 @@
         },
         "function-declaration": {
             "name": "meta.function.cairo",
-            "begin": "\\b(func)\\s+",
-            "beginCaptures": {
-                "1": {
-                    "name": "storage.type.function.cairo"
-                }
-            },
+            "begin": "\\b(?=func\\b)",
             "patterns": [
                 {
+                    "match": "\\b(func)\\b",
+                    "name": "storage.type.function.cairo"
+                },
+                {
                     "name": "meta.function.signature.cairo",
-                    "begin": "\\b([a-zA-Z_][a-zA-Z0-9_]*)\\b(?=[{(])",
+                    "begin": "\\b([\\w][\\w]*)\\b(?=[{(])",
                     "beginCaptures": {
                         "1": {
                             "name": "entity.name.function.cairo"
@@ -167,7 +165,13 @@
                     "endCaptures": {}
                 },
                 {
-                    "include": "#statements"
+                    "begin": "(?<=:)",
+                    "patterns": [
+                        {
+                            "include": "#statements"
+                        }
+                    ],
+                    "end": "\\b(?=end)\\b"
                 }
             ],
             "end": "\\b(end)\\b",
@@ -244,10 +248,10 @@
                     "include": "#struct-declaration"
                 },
                 {
-                    "include": "#scope-attribute-declaration"
+                    "include": "#function-call"
                 },
                 {
-                    "include": "#function-call"
+                    "include": "#scope-attribute-declaration"
                 },
                 {
                     "include": "#function-declaration"
