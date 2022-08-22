@@ -1,9 +1,21 @@
 # SYNTAX TEST "source.cairo" "sample testcase"
 
 from starkware.cairo.common.registers import get_fp_and_pc
-# <---- meta.import.cairo
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.cairo
 # <---- keyword.control.from.cairo
 #                                     ^^^^^^ meta.import.cairo keyword.control.import.cairo
+
+struct MyStruct:
+# <----- storage.type.struct.cairo
+#      ^^^^^^^^ entity.name.struct.cairo
+    member a : felt,
+#   ^^^^^^ keyword.other.cairo
+#              ^^^^ support.type.primitive.cairo
+    member b: MySecondStruct*
+#          ^ variable.other.cairo
+#             ^^^^^^^^^^^^^^ support.type.cairo
+end
+# <--- storage.type.struct.cairo
 
 func foo{output_ptr: felt*}(a: felt*):
 #   ^ meta.function.cairo 

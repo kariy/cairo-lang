@@ -165,6 +165,35 @@
 				}
 			}
 		},
+		"struct-declaration": {
+			"name": "meta.struct.cairo",
+			"begin": "\\b(?=struct\\b)",
+			"patterns": [
+				{
+					"match": "\\b(struct|end)\\b",
+					"name": "storage.type.struct.cairo"
+				},
+				{
+					"match": "(?<=struct\\s*)([\\w_][\\w\\d_]*)\\b",
+					"captures": {
+						"1": {
+							"name": "entity.name.struct.cairo"
+						}
+					}
+				},
+				{
+					"match": "\\b(member)\\b",
+					"name": "keyword.other.cairo"
+				},
+				{
+					"include": "#type-annotation"
+				},
+				{
+					"include": "#comment"
+				}
+			],
+			"end": "(?<=end)\\b"
+		},
 		"directives": {
 			"name": "meta.directive.cairo",
 			"begin": "\\B(%)(builtins|lang)\\b",
@@ -199,6 +228,9 @@
 		},
 		"declaration": {
 			"patterns": [
+				{
+					"include": "#struct-declaration"
+				},
 				{
 					"include": "#function-call"
 				},
@@ -302,18 +334,28 @@
 		},
 		"import": {
 			"name": "meta.import.cairo",
-			"begin": "\\b(from)\\b",
-			"beginCaptures": {
-				"1": {
-					"name": "keyword.control.from.cairo"
+			"begin": "^(?=from\\s)",
+			"patterns": [
+				{
+					"begin": "\\b(from)\\b",
+					"beginCaptures": {
+						"1": {
+							"name": "keyword.control.from.cairo"
+						}
+					},
+					"end": "\\b(?=import\\b)"
+				},
+				{
+					"begin": "\\b(import)\\b",
+					"beginCaptures": {
+						"1": {
+							"name": "keyword.control.import.cairo"
+						}
+					},
+					"end": "(?=[\\n\\r])"
 				}
-			},
-			"end": "\\b(import)\\b",
-			"endCaptures": {
-				"1": {
-					"name": "keyword.control.import.cairo"
-				}
-			}
+			],
+			"end": "[\\n\\r]"
 		},
 		"type-annotation": {
 			"name": "meta.type.annotation.cairo",
