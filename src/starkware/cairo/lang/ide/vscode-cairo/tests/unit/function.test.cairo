@@ -75,4 +75,12 @@ end
 
 func foo(a: MyStruct):
 #           ^^^^^^^^ support.type.cairo
+    with_attr attribute_name("Attribute value"):
+#   ^^^^^^^^^ keyword.other.attribute.cairo
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.scope-attribute.cairo
+#             ^^^^^^^^^^^^^^ entity.other.attribute-name.cairo
+#                            ^^^^^^^^^^^^^^^^^ string.quoted.double.cairo
+    end
+
 end
+# <--- storage.type.function.end.cairo

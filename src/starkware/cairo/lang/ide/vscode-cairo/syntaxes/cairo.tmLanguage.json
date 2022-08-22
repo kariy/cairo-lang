@@ -22,6 +22,9 @@
 		"statements": {
 			"patterns": [
 				{
+					"include": "#literal"
+				},
+				{
 					"include": "#embedded-python"
 				},
 				{
@@ -37,13 +40,10 @@
 					"include": "#operators"
 				},
 				{
-					"include": "#literal"
-				},
-				{
 					"include": "#types"
 				},
 				{
-					"match": "\\b(assert)\\b",
+					"match": "\\b(assert|alloc_locals)\\b",
 					"name": "keyword.other.cairo"
 				},
 				{
@@ -232,6 +232,9 @@
 					"include": "#struct-declaration"
 				},
 				{
+					"include": "#scope-attribute-declaration"
+				},
+				{
 					"include": "#function-call"
 				},
 				{
@@ -253,6 +256,14 @@
 						}
 					],
 					"end": "[\\n\\r]"
+				},
+				{
+					"match": "\\b(end)\\b",
+					"captures": {
+						"1": {
+							"name": "keyword.control.end.cairo"
+						}
+					}
 				}
 			]
 		},
@@ -315,10 +326,62 @@
 		"string": {
 			"patterns": [
 				{
-					"name": "string.quoted.double",
-					"match": "\\B(\"\\w*\")\\B"
+					"include": "#qstring-single"
+				},
+				{
+					"include": "#qstring-double"
 				}
 			]
+		},
+		"qstring-double": {
+			"name": "string.quoted.double.cairo",
+			"begin": "\"",
+			"beginCaptures": {
+				"0": {
+					"name": "punctuation.definition.string.begin.cairo"
+				}
+			},
+			"end": "(\")|((?:[^\\\\\\n])$)",
+			"endCaptures": {
+				"1": {
+					"name": "punctuation.definition.string.end.cairo"
+				},
+				"2": {
+					"name": "invalid.illegal.newline.cairo"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#string-character-escape"
+				}
+			]
+		},
+		"qstring-single": {
+			"name": "string.quoted.single.cairo",
+			"begin": "'",
+			"beginCaptures": {
+				"0": {
+					"name": "punctuation.definition.string.begin.cairo"
+				}
+			},
+			"end": "(\\')|((?:[^\\\\\\n])$)",
+			"endCaptures": {
+				"1": {
+					"name": "punctuation.definition.string.end.cairo"
+				},
+				"2": {
+					"name": "invalid.illegal.newline.cairo"
+				}
+			},
+			"patterns": [
+				{
+					"include": "#string-character-escape"
+				}
+			]
+		},
+		"string-character-escape": {
+			"name": "constant.character.escape.cairo",
+			"match": "\\\\(x[0-9A-Fa-f]{2}|u[0-9A-Fa-f]{4}|u\\{[0-9A-Fa-f]+\\}|[0-2][0-7]{0,2}|3[0-6][0-7]?|37[0-7]?|[4-7][0-7]?|.|$)"
 		},
 		"number": {
 			"patterns": [
@@ -451,6 +514,41 @@
 		"unnamed": {
 			"match": "\\b(SIZEOF_LOCALS|SIZE)\\b",
 			"name": "support.constant.cairo"
+		},
+		"scope-attribute-declaration": {
+			"name": "meta.scope-attribute.cairo",
+			"begin": "\\b(?=with_attr\\b)",
+			"patterns": [
+				{
+					"begin": "\\b(with_attr)\\b",
+					"beginCaptures": {
+						"1": {
+							"name": "keyword.other.attribute.cairo"
+						}
+					},
+					"patterns": [
+						{
+							"begin": "\\b([\\w_][\\w\\d_]*)\\(",
+							"beginCaptures": {
+								"1": {
+									"name": "entity.other.attribute-name.cairo"
+								}
+							},
+							"patterns": [
+								{
+									"include": "#statements"
+								}
+							],
+							"end": "\\)"
+						}
+					],
+					"end": ":"
+				},
+				{
+					"include": "#statements"
+				}
+			],
+			"end": "(?<=\\bend)\\b"
 		}
 	},
 	"scopeName": "source.cairo"
