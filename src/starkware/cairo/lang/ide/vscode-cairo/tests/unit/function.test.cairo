@@ -1,5 +1,15 @@
 # SYNTAX TEST "source.cairo" "sample testcase"
 
+%builtins output range_check
+#^^^^^^^^ entity.name.directive.cairo        
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.directive.cairo
+#         ^^^^^^ entity.name.builtins.cairo
+
+%lang starknet
+# ^^^^^^^^^^^^ meta.directive.cairo
+#^^^^ entity.name.directive.cairo
+#     ^^^^^^^^ entity.name.lang.cairo
+
 from starkware.cairo.common.registers import get_fp_and_pc
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.cairo
 # <---- keyword.control.from.cairo
@@ -18,6 +28,10 @@ struct MyStruct:
 end
 # <--- storage.type.struct.cairo
 
+@storage_var
+# ^^^^^^^^^^ meta.function.decorator.cairo
+# <- punctuation.decorator.cairo
+#^^^^^^^^^^^ entity.name.decorator.cairo
 func foo{output_ptr: felt*}(a: felt*):
 #   ^ meta.function.cairo 
 #    ^^^ entity.name.function.cairo
@@ -49,12 +63,12 @@ func foo():
 #   ^^^ entity.name.function.cairo
 #        ^ keyword.operator.assignment.cairo
 #         ^^ constant.numeric.decimal.cairo
-    let a : felt        = 10
+    let a : felt = 1
 #   ^^^ storage.type.cairo   
 #       ^ variable.other.cairo
 #       ^^^^^^^ meta.type.annotation.cairo
-#                       ^ keyword.operator.assignment.cairo
-#                         ^^ constant.numeric.decimal.cairo
+#                ^ keyword.operator.assignment.cairo
+#                  ^ constant.numeric.decimal.cairo
 
     let (local x: MyStruct) = lasdj
 #   ^^^ storage.type.cairo

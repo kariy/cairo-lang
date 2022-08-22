@@ -211,6 +211,36 @@
             "end": "(?<=end)\\b"
         },
         "directives": {
+            "patterns": [
+                {
+                    "include": "#program-directive"
+                },
+                {
+                    "include": "#function-directive"
+                }
+            ]
+        },
+        "function-directive": {
+            "name": "meta.function.decorator.cairo",
+            "begin": "(?<!\\w)(@)",
+            "beginCaptures": {
+                "1": {
+                    "name": "punctuation.decorator.cairo"
+                }
+            },
+            "patterns": [
+                {
+                    "match": "(?<=@)([\\w][\\w]*)\\b",
+                    "captures": {
+                        "1": {
+                            "name": "entity.name.decorator.cairo"
+                        }
+                    }
+                }
+            ],
+            "end": "(?=\\n|\\r)"
+        },
+        "program-directive": {
             "name": "meta.directive.cairo",
             "begin": "\\B(%)(builtins|lang)\\b",
             "beginCaptures": {
@@ -470,7 +500,7 @@
                     "include": "#generic-type"
                 }
             ],
-            "end": "(?<!:\\s*)(?=\\n|\\r|=)"
+            "end": "(?<!:\\s*)(?=\\n|\\r|=|\\W)"
         },
         "types": {
             "patterns": [
