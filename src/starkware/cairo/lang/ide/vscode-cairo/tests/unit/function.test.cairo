@@ -8,8 +8,9 @@ from starkware.cairo.common.registers import get_fp_and_pc
 struct MyStruct:
 # <----- storage.type.struct.cairo
 #      ^^^^^^^^ entity.name.struct.cairo
-    member a : felt,
+    member a : felt
 #   ^^^^^^ keyword.other.cairo
+#            ^ keyword.operator.type.annotation.cairo
 #              ^^^^ support.type.primitive.cairo
     member b: MySecondStruct*
 #          ^ variable.other.cairo
@@ -45,14 +46,15 @@ end
 func foo():
     foo(a=10, b=10)
 #   ^^^ meta.function-call.cairo
+#   ^^^ entity.name.function.cairo
 #        ^ keyword.operator.assignment.cairo
 #         ^^ constant.numeric.decimal.cairo
-    let a: felt = 10
+    let a : felt        = 10
 #   ^^^ storage.type.cairo   
 #       ^ variable.other.cairo
-#               ^ keyword.operator.assignment.cairo
-#                 ^^ constant.numeric.decimal.cairo
 #       ^^^^^^^ meta.type.annotation.cairo
+#                       ^ keyword.operator.assignment.cairo
+#                         ^^ constant.numeric.decimal.cairo
 
     let (local x: MyStruct) = lasdj
 #   ^^^ storage.type.cairo
@@ -64,7 +66,7 @@ func foo():
 #        ^^ keyword.operator.comparison.cairo
 #      ^  constant.numeric.decimal.cairo
 #           ^  constant.numeric.decimal.cairo
-    else
+    else:
 #   ^^^^ keyword.control.conditional.cairo
     end
 #   ^^^ keyword.control.end.cairo
@@ -73,14 +75,38 @@ func foo():
 end
 # <--- storage.type.function.end.cairo
 
-func foo(a: MyStruct):
+func foo(a: MyStruct) -> (a: felt):
 #           ^^^^^^^^ support.type.cairo
+#                     ^^ keyword.operator.arrow.cairo
     with_attr attribute_name("Attribute value"):
 #   ^^^^^^^^^ keyword.other.attribute.cairo
 #   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.scope-attribute.cairo
 #             ^^^^^^^^^^^^^^ entity.other.attribute-name.cairo
 #                            ^^^^^^^^^^^^^^^^^ string.quoted.double.cairo
-    end
+    end    
+
+    let 
+#   ^^^ storage.type.cairo 
+        x = 10
+#      ^^^^^^^ meta.var.expr.cairo
+
+    local loc_tuple : (
+        Location, Location, Location, Location, Location
+    ) = (
+        Location(row=0, col=2),
+        Location(row=1, col=2),
+        Location(row=1, col=3),
+        Location(row=2, col=3),
+        Location(row=3, col=3),
+        )
+
+    local tiles : (felt, felt, felt, felt) = (3, 7, 8, 12)
+
+                
 
 end
 # <--- storage.type.function.end.cairo
+
+
+
+

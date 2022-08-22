@@ -25,5 +25,13 @@
         ["(", ")"],
         ["\"", "\""],
         ["'", "'"]
+    ],
+
+    "onEnterRules": [
+        {
+            "beforeText": "^\\s*(?:func|struct|with_attr|for|if|else).*?:\\s*$",
+            "action": { "indent": "indent" }
+        }
     ]
+      
 }
