@@ -6,14 +6,43 @@
 #         ^^^^^^ entity.name.builtins.cairo
 
 %lang starknet
+# <- punctuation.directive.cairo
 # ^^^^^^^^^^^^ meta.directive.cairo
 #^^^^ entity.name.directive.cairo
 #     ^^^^^^^^ entity.name.lang.cairo
 
-from starkware.cairo.common.registers import get_fp_and_pc
+from starkware.cairo.common.registers import get_fp_and_pc 
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.cairo
 # <---- keyword.control.from.cairo
 #                                     ^^^^^^ meta.import.cairo keyword.control.import.cairo
+
+namespace ServiceRequest:
+# <--------- storage.type.namespace.cairo
+#         ^^^^^^^^^^^^^^ entity.name.namespace.cairo
+    func create_service_commitment(
+#   ^^^^ storage.type.function.cairo
+#        ^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.function.cairo
+        request_id: felt, 
+#       ^^^^^^^^^^ variable.parameter.cairo
+#                   ^^^^ support.type.primitive.cairo
+        requestor: felt, 
+        provider: felt,
+        amount: felt
+    ) -> (success: felt):
+    end
+#   ^^^ storage.type.function.end.cairo
+
+    func get_service_commitment_of(request_id : felt) -> (commitment : ServiceCommitment):
+    end
+
+    func complete_service_commitment(request_id: felt) -> (success : felt): 
+    end
+
+    func get_token_address() -> (contract_address: felt):
+    end
+
+end
+#  <---  keyword.control.end.cairo
 
 struct MyStruct:
 # <----- storage.type.struct.cairo

@@ -119,6 +119,30 @@
             ],
             "end": "\\)"
         },
+        "namespace-declaration": {
+            "begin": "\\b(?=namespace\\b)",
+            "patterns": [
+                {
+                    "begin": "\\b(namespace)\\b",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "storage.type.namespace.cairo"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "match": "(?<=namespace\\s+)([\\w][\\w]*)\\b",
+                            "name": "entity.name.namespace.cairo"
+                        }
+                    ],
+                    "end": "(?<=:)"
+                },
+                {
+                    "include": "#statements"
+                }
+            ],
+            "end": "(?<=\\bend)\\b"
+        },
         "function-declaration": {
             "name": "meta.function.cairo",
             "begin": "\\b(?=func\\b)",
@@ -142,6 +166,9 @@
                             "patterns": [
                                 {
                                     "include": "#parameter"
+                                },
+                                {
+                                    "include": "#comment"
                                 }
                             ],
                             "end": "}"
@@ -152,6 +179,9 @@
                             "patterns": [
                                 {
                                     "include": "#parameter"
+                                },
+                                {
+                                    "include": "#comment"
                                 }
                             ],
                             "end": "\\)"
@@ -242,8 +272,11 @@
         },
         "program-directive": {
             "name": "meta.directive.cairo",
-            "begin": "\\B(%)(builtins|lang)\\b",
+            "begin": "(?<!\\w)(%)([\\w][\\w]*)\\b",
             "beginCaptures": {
+                "1": {
+                    "name": "punctuation.directive.cairo"
+                },
                 "2": {
                     "name": "entity.name.directive.cairo"
                 }
@@ -274,6 +307,9 @@
         },
         "declaration": {
             "patterns": [
+                {
+                    "include": "#namespace-declaration"
+                },
                 {
                     "include": "#struct-declaration"
                 },
@@ -452,7 +488,7 @@
                             "name": "keyword.control.from.cairo"
                         }
                     },
-                    "end": "\\b(?=import\\b)"
+                    "end": "(?=(?:[\\n\\r])|(?:\\bimport\\b))"
                 },
                 {
                     "begin": "\\b(import)\\b",
