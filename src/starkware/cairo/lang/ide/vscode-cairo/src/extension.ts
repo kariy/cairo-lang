@@ -17,6 +17,9 @@ function getFormatterExecutablePath(config: vscode.WorkspaceConfiguration): stri
 
 export function activate(context: vscode.ExtensionContext) {
     const config = vscode.workspace.getConfiguration();
+
+    console.log("config", config)
+
     vscode.languages.registerDocumentFormattingEditProvider('cairo', {
         provideDocumentFormattingEdits(document: vscode.TextDocument): vscode.TextEdit[] {
             const execPath = getFormatterExecutablePath(config);

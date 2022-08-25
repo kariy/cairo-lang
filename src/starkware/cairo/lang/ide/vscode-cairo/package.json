@@ -12,6 +12,10 @@
     "categories": [
         "Programming Languages"
     ],
+    "activationEvents": [
+        "onLanguage:cairo"
+    ],
+    "main": "./out/extension",
     "contributes": {
         "languages": [
             {
@@ -48,7 +52,7 @@
                 "properties": {
                     "cairo.cairoFormatPath": {
                         "type": "string",
-                        "default": "cairo-format",
+                        "default": "cairo-format-x",
                         "description": "Path to the cairo-format utility.",
                         "scope": "window"
                     }
